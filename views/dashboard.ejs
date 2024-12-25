@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Welcome, <%= user.username %>!</h1>
+  <h2>Budget: <%= user.budget %></h2>
+  <h2>Balance: <%= user.budget - user.expenses.reduce((sum, e) => sum + e.amount, 0) %></h2>
+  <h3>Expenses:</h3>
+  <ul>
+    <% user.expenses.forEach((expense, index) => { %>
+      <li>
+        <%= expense.title %>: <%= expense.amount %>
+        <form action="/budget/delete-expense/<%= index %>" method="POST" style="display:inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+  <form action="/budget/set-budget" method="POST">
+    <input type="number" name="budget" placeholder="Set Budget" />
+    <button type="submit">Update Budget</button>
+  </form>
+  <form action="/budget/add-expense" method="POST">
+    <input type="text" name="title" placeholder="Expense Title" />
+    <input type="number" name="amount" placeholder="Expense Amount" />
+    <button type="submit">Add Expense</button>
+  </form>
+</body>
+</html>
